@@ -1,0 +1,82 @@
+# .tcshrc on macOS
+# made by hiropy
+# sep 1996
+# last modified in dec 2020
+
+# '.' must be included for use of directory completion without 'cd'.
+set    path=(/bin /usr/bin /usr/local/bin /opt/X11/bin /sbin /usr/sbin .)
+umask    022
+
+if(! $?prompt)then
+    exit 0
+endif
+
+if($uid == 0)then
+    # Root user
+    set    prompt="%{[31m%}%B[%~]%b%{[m%} "
+    set    prompt2="%{[31m%}%R%B?%b%{[m%} "
+    set    prompt3="%{[31m%}%BCorrect>%b%{[m%}%{[31m%}%b%R%B(y|n|e|a)?%b%{[m%} "
+    #set    rprompt="%{[31m%}%B[%m]%b%{[m%}"
+else
+    if(! $?REMOTEHOST)then
+        # other users
+        set    prompt="%{[34m%}%B[%~]%b%{[m%} "
+        set    prompt2="%{[34m%}%R%B?%b%{[m%} "
+        set    prompt3="%{[34m%}%BCorrect>%b%{[m%}%{[34m%}%b%R%B(y|n|e|a)?%b%{[m%} "
+        #set    rprompt="%{[34m%}%B[%m]%b%{[m%}"
+    else
+        # remote host
+        set    prompt="%B[%~]%b "
+        set    prompt2="%R%B?%b "
+        set    prompt3="%BCorrect>%b%R%B(y|n|e|a)?%b "
+    endif
+endif
+set    history=256
+set    savehist=(64 merge)
+set    noclobber
+set    autolist
+set    autoexpand
+set    listlinks
+set    correct=cmd
+set    autocorrect
+set    color
+set    implicitcd
+set    matchbeep
+set    rmstar
+set    time=(1 "elapsed time %E   CPU usage %P")
+set    pushdtohome
+set    pushdsilent
+set    wordchars="*?_[]"
+unset    autologout
+setenv    LC_ALL ja_JP.UTF-8
+setenv    LANG   ja        # For history-search working well.
+setenv    PERL_BADLANG 0   # For not printing Perl warning.
+setenv    BLOCKSIZE K
+setenv    CLICOLOR                # To colorize ls
+setenv    CLICOLOR_FORCE 1   # To colorize ls redirection output
+setenv    LSCOLORS "Axfxxxxxbxhehebxbxbxbx"
+setenv    LS_COLORS "no=00:fi=00:di=01:ln=35:pi=00:so=00:bd=37;40:cd=37;44:ex=31"
+# For node.brew
+setenv    NODEBREW_HOME /usr/local/var/nodebrew/current
+setenv    NODEBREW_ROOT /usr/local/var/nodebrew
+setenv    PATH ${PATH}:${NODEBREW_HOME}/bin
+if($TERM == xterm || $TERM == kterm)then
+    setenv  XMODIFIERS "@im=_XWNMO" # For XIM
+    setenv  TERM ${TERM}-color          # To colorize ls
+    alias    cwdcmd    'echo -n "]2;${HOST}"'
+    cd .
+endif
+bindkey ^?       backward-delete-word
+bindkey ^[[A    history-search-backward
+bindkey ^[[B    history-search-forward
+bindkey ^P       history-search-backward
+bindkey ^N       history-search-forward
+complete    cd       'p/1/d/'
+complete    emacs  'p/*/t/'
+complete    git     'p/1/(clone init add mv reset rm bisect grep log show status branch checkout commit diff merge rebase tag fetch pull push help)/'
+complete    docker 'p/1/(start restart pause unpause stats rm rmi ps logs images exec build run volume network version compose tag scan)/'
+alias    mv    'mv -i'
+alias    cp    'cp -i'
+alias    ll    'ls -Alt \!* | more -R'
+alias    cd    'pushd \!*'
+alias    dirs 'dirs -v'
