@@ -32,7 +32,8 @@ else
     endif
 endif
 set    history=256
-set    savehist=(64 merge)
+set    savehist=(256 merge)
+set    histdup=erase
 set    noclobber
 set    autolist
 set    autoexpand
