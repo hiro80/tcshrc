@@ -87,6 +87,6 @@ if($OSTYPE == "darwin")then
     alias    ll    'ls -AGlt \!* | more -R'
 else
     alias    ls    'ls --color=auto'
-    alias    ll    'ls -Alt --time-style=long-iso --color=auto | more'
+    alias    ll    'ls -Alt --time-style=long-iso --color=auto'
     alias    grep  'grep --color=auto'
 endif
