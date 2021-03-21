@@ -1,7 +1,7 @@
 # .tcshrc on macOS
 # made by hiropy
 # sep 1996
-# last modified in dec 2020
+# last modified in mar 2021
 
 # '.' must be included for use of directory completion without 'cd'.
 set    path=(/bin /usr/bin /usr/local/bin /opt/X11/bin /sbin /usr/sbin .)
@@ -61,12 +61,14 @@ setenv    LS_COLORS "no=00:fi=00:di=01:ln=35:pi=00:so=00:bd=37;40:cd=37;44:ex=31
 setenv    NODEBREW_HOME /usr/local/var/nodebrew/current
 setenv    NODEBREW_ROOT /usr/local/var/nodebrew
 setenv    PATH ${PATH}:${NODEBREW_HOME}/bin
-if($TERM == xterm || $TERM == kterm)then
-    setenv  XMODIFIERS "@im=_XWNMO" # For XIM
-    setenv  TERM ${TERM}-color          # To colorize ls
-    alias    cwdcmd    'echo -n "]2;${HOST}"'
-    cd .
-endif
+switch($TERM)
+    case "xterm*":
+        setenv  XMODIFIERS "@im=_XWNMO" # For XIM
+        # setenv  TERM ${TERM}-color          # To colorize ls
+        alias    cwdcmd    'echo -n "]0;`hostname -s`"'
+        cd .
+        breaksw
+endsw
 bindkey ^?       backward-delete-word
 bindkey ^[[A    history-search-backward
 bindkey ^[[B    history-search-forward
