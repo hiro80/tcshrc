@@ -52,7 +52,7 @@ unset    autologout
 setenv    LC_ALL ja_JP.UTF-8
 setenv    LANG   ja        # For history-search working well.
 setenv    PERL_BADLANG 0   # For not printing Perl warning.
-setenv    BLOCKSIZE K
+setenv    BLOCKSIZE M
 setenv    CLICOLOR                # To colorize ls
 setenv    CLICOLOR_FORCE 1   # To colorize ls redirection output
 setenv    LSCOLORS "Axfxxxxxbxhehebxbxbxbx"
